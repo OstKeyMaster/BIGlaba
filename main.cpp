@@ -35,13 +35,15 @@ Stroka::Stroka(char ch): len(1), pch(new char[len+1]) {
 }
 
 Stroka::Stroka(const char * S): len(strlen(S)), pch(new char[len+1]) {
+    //int count = 0;
+    //while (*S++)
     strcpy_s(pch, len + 1, S);
     cout << "Stroka::Stroka(const char * S)" << endl;
 }
 
-Stroka::Stroka(const Stroka &_object) : len(_object.len), pch(new char[len + 1]) {
-    //strcpy_s(pch, len + 1, _object.pch);
-    char * ptr = _object.pch;
+Stroka::Stroka(const Stroka &src_obj) : len(src_obj.len), pch(new char[len + 1]) {
+    //strcpy_s(pch, len + 1, src_obj.pch);
+    char * ptr = src_obj.pch;
     for (int i = 0; i <= len; i++) {
         *pch++ = *ptr++;
     }
@@ -60,14 +62,56 @@ void Stroka::Show(void) {
     cout << "void Stroka::Show(void)" << endl;
 }
 
+
+
+class ID_Stroka: public Stroka {
+public:
+    ID_Stroka(int = 0);
+
+    ID_Stroka(char);
+
+    ID_Stroka(const char *);
+
+    ID_Stroka(const ID_Stroka &);
+
+    ~ID_Stroka();
+
+    ID_Stroka &operator=(const ID_Stroka &);  //copy
+
+    char &operator[](int);  //  add symbol by index
+
+    ID_Stroka operator~();  //  reverse
+
+    friend ID_Stroka operator+(const ID_Stroka &, const ID_Stroka);//  concatenate
+
+    friend ID_Stroka operator+(const ID_Stroka, const char *);
+
+    friend ID_Stroka operator+(const char *, const ID_Stroka);
+};
+ID_Stroka::ID_Stroka(int a): Stroka(a) {
+    cout << "ID_Stroka::ID_Stroka(int a):Stroka(a)" << endl;
+}
+
+ID_Stroka::ID_Stroka(char ch):Stroka(ch) {
+    if (pch[0] >= 'A' && pch[0] <= 'z' && pch[0] == '_') {}
+    else {
+        if (pch) delete[] pch;
+        len = 0;
+        pch = new char[len + 1];
+        pch[0] = '\0';
+        cout << "Bad Symbol!" << endl;
+    }
+}
+
 int main() {
-    Stroka obj("ITMO");
+    Stroka obj("PBKS_ITMO");
 
     /*obj.Show();
     cout << obj.GetStr() << endl;
     cout << obj.GetLen() << endl;*/
 
     Stroka obj1 = obj;
+    obj.Show();
     obj1.Show();
     return 0;
 }
