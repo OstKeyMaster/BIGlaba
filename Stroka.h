@@ -8,43 +8,46 @@ protected:
     int len;
     char * pch;
 public:
-    Stroka(int = 0); // Stroka obj(25);
+    Stroka(int = 0);  //Конструктор по ДЛИНЕ строки
 
-    Stroka(char); // Stroka obj('F');
+    Stroka(char);  //Конструктор по символу
 
-    Stroka(const char *); // Stroka obj("ITMO");
+    Stroka(const char *);  //Конструктор по строке
 
-    Stroka(const Stroka &); // Stroka obj(obj1);
+    Stroka(const Stroka &);  //Конструктор копирования
 
     ~Stroka();
 
-    int GetLen() const {return len;}
+    int GetLen() {
+        return len;
+    }
 
-    char * GetStr() const {return pch;}
+    char * GetStr() const {
+        return pch;
+    }
 
     void Show();
 };
 
-Stroka::Stroka(int a): len(a), pch(new char[len+1]) {
+Stroka::Stroka(int a): len(a), pch(new char[len+1]()) {
     if (a == 0) pch[0] = '\0';
     cout << "Stroka::Stroka(int a)" << endl;
 }
 
-Stroka::Stroka(char ch): len(1), pch(new char[len+1]) {
+Stroka::Stroka(char ch): len(1), pch(new char[len+1]()) {
     pch[0] = ch;
     pch[1] = '\0';
     cout << "Stroka::Stroka(char ch)" << endl;
 }
 
-Stroka::Stroka(const char * S): len(strlen(S)), pch(new char[len+1]) {
-    //int count = 0;
-    //while (*S++)
-    strcpy_s(pch, len + 1, S);
+Stroka::Stroka(const char * S): len(strlen(S)), pch(new char[len+1]()) {
+    for (int i = 0; i < len; i++) {
+        pch[i] = S[i];
+    }
     cout << "Stroka::Stroka(const char * S)" << endl;
 }
 
-Stroka::Stroka(const Stroka &src_obj) : len(src_obj.len), pch(new char[len + 1]) {
-    //strcpy_s(pch, len + 1, src_obj.pch);
+Stroka::Stroka(const Stroka &src_obj) : len(src_obj.len), pch(new char[len + 1]()) {
     char * ptr = src_obj.pch;
     for (int i = 0; i <= len; i++) {
         *pch++ = *ptr++;
@@ -54,9 +57,11 @@ Stroka::Stroka(const Stroka &src_obj) : len(src_obj.len), pch(new char[len + 1])
 }
 
 Stroka::~Stroka() {
-    if (pch) delete[] pch;
+    delete[] pch;
     cout << "Stroka::~Stroka()" << endl;
 }
+
+
 
 void Stroka::Show() {
     cout << "pch = " << pch << endl;

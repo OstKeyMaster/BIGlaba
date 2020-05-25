@@ -30,7 +30,7 @@ Dec_Stroka::Dec_Stroka(int val): Stroka(val) {
 }
 
 Dec_Stroka::~Dec_Stroka() {
-    cout << "Dec_Stroka::Dec_Strokaroka()" << endl;
+    cout << "Dec_Stroka::Dec_Stroka()" << endl;
 }
 
 /*строка неачинается с цифры или +-, далее только цифры, иначе строка пустая*/
@@ -57,6 +57,7 @@ Dec_Stroka::Dec_Stroka(const char * str): Stroka(str) {
         pch[0] = '\0';
         cout << "Dec_Stroka Bad Symbol!" << endl;
     }
+    cout << "Dec_Stroka::Dec_Stroka(const char * str)" << endl;
 }
 
 //конструктор копировния

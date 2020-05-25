@@ -7,38 +7,42 @@ using namespace std;
 
 class ID_Stroka: public Stroka {
 public:
-    ID_Stroka(int = 0);
+    ID_Stroka(int = 0);  //Конструктор по длине строки (пустой)
 
-    ID_Stroka(char);
+    ID_Stroka(char);  //Конструктор по символу
 
-    ID_Stroka(const char *);
+    ID_Stroka(const char *);  //Конструктор по строке
 
-    ID_Stroka(const ID_Stroka &);
+    ID_Stroka(const ID_Stroka &);  //Конструктор копирования
 
     ~ID_Stroka();
 
-    ID_Stroka &operator=(const ID_Stroka &);  //copy
+    ID_Stroka upperCase();
 
-    char &operator[](int);  //  add symbol by index
+    ID_Stroka &operator=(const ID_Stroka &);  //Оператор присваивания (ссылки)
 
-    ID_Stroka operator~();  //  reverse
+    char &operator[](int);  //Опреатор возвращает символ по индексу
 
-    friend ID_Stroka operator+(const ID_Stroka &, const ID_Stroka &);//  concatenate
+    ID_Stroka operator~();  //Оператор разворота строки
 
-    // friend ID_Stroka operator+(const ID_Stroka, const char *);
+    friend ID_Stroka operator+(const ID_Stroka &, const ID_Stroka &);  //Конкатенация строк
 
-    // friend ID_Stroka operator+(const char *, const ID_Stroka);
+    // friend ID_Stroka operator+(const ID_Stroka, const char *);  \\TODO
+
+    // friend ID_Stroka operator+(const char *, const ID_Stroka);  \\TODO
 };
 ID_Stroka::ID_Stroka(int a): Stroka(a) {
     cout << "ID_Stroka::ID_Stroka(int a):Stroka(a)" << endl;
 }
 
 ID_Stroka::ID_Stroka(char ch):Stroka(ch) {
-    if ((pch[0] >= 'A' && pch[0] <= 'Z') || (pch[0] >= 'a' && pch[0] <= 'z') || pch[0] == '_') {
+    if ((pch[0] >= 'A' && pch[0] <= 'Z')
+    || (pch[0] >= 'a' && pch[0] <= 'z')
+    || pch[0] == '_') {
         cout << "ID_Stroka::ID_Stroka(char ch)" << endl;
     }
     else {
-        if (pch) delete[] pch;
+        delete[] pch;
         len = 0;
         pch = new char[len + 1];
         pch[0] = '\0';
@@ -47,10 +51,12 @@ ID_Stroka::ID_Stroka(char ch):Stroka(ch) {
 }
 
 ID_Stroka::ID_Stroka(const char * Str):Stroka(Str) {
-    if ((pch[0] >= 'A' && pch[0] <= 'Z') || (pch[0] >= 'a' && pch[0] <= 'z') || pch[0] == '_') {
+    if ((pch[0] >= 'A' && pch[0] <= 'Z')
+    || (pch[0] >= 'a' && pch[0] <= 'z')
+    || pch[0] == '_') {
         for (int i = 1; i < len; i++) {
             if (pch[i] == ' ') {
-                if (pch) delete[] pch;
+                delete[] pch;
                 len = 0;
                 pch = new char[len + 1];
                 pch[0] = '\0';
@@ -60,7 +66,7 @@ ID_Stroka::ID_Stroka(const char * Str):Stroka(Str) {
         }
     }
     else {
-        if (pch) delete[] pch;
+        delete[] pch;
         len = 0;
         pch = new char[len + 1];
         pch[0] = '\0';
@@ -74,8 +80,15 @@ ID_Stroka::ID_Stroka(const ID_Stroka & from):Stroka(from) {
 }
 
 ID_Stroka::~ID_Stroka() {
-    if (pch) delete[] pch;
     cout << "ID_Stroka::~ID_Stroka()" << endl;
+}
+
+ID_Stroka ID_Stroka::upperCase() {
+    for (int i = 0; i < len; i++) {
+        if(pch[i] >= 'a' && pch[i] <= 'z')
+            pch[i] -= 32;
+    }
+    return *this;
 }
 
 ID_Stroka ID_Stroka::operator~() {
@@ -94,9 +107,9 @@ ID_Stroka & ID_Stroka::operator=(const ID_Stroka &S) {
     if (&S != this) {
         delete[] pch;
         len = strlen(S.pch);
-        pch = new char[len + 1];
-        //strcpy
-        strcpy_s(pch, len + 1, S.pch);
+        pch = new char[len + 1]();
+        for (int i = 0; i <= len; i++)
+            pch[i] = S.pch[i];
     }
     cout << "ID_Stroka & ID_Stroka::operator=(const ID_Stroka & S)" << endl;
     return *this;
@@ -111,12 +124,20 @@ char &ID_Stroka::operator[](int Index) {
 }
 
 ID_Stroka operator+(const ID_Stroka &pobj1, const ID_Stroka &pobj2) {
-    ID_Stroka tmp(pobj1.GetLen() + pobj2.GetLen());
-    strcpy_s(tmp.pch, tmp.len + 1, pobj1.GetStr());
-    strcat_s(tmp.pch, tmp.len + 1, pobj2.GetStr());
+    ID_Stroka tmp(pobj1.len + pobj2.len);
+    for (int i = 0; i < pobj1.len; i++)
+        tmp.pch[i] = pobj1.pch[i];
+    for (int i = 0; i <= pobj2.len; i++)
+        tmp.pch[pobj1.len + i] = pobj2.pch[i];
+
+
+    //strcpy_s(tmp.pch, tmp.len + 1, pobj1.GetStr());
+    //strcat_s(tmp.pch, tmp.len + 1, pobj2.GetStr());
     cout << "ID_Stroka operator+(const ID_Stroka &pobj1, const ID_Stroka &pobj2)" << endl;
     return tmp;
 }
+
+
 
 
 #endif //_ID_STROKA_
