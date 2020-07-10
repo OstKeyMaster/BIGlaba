@@ -27,10 +27,11 @@ public:
 
     friend ID_Stroka operator+(const ID_Stroka &, const ID_Stroka &);  //Конкатенация строк
 
-    // friend ID_Stroka operator+(const ID_Stroka, const char *);  \\TODO
+    friend ID_Stroka operator+(const ID_Stroka &, const char *);
 
-    // friend ID_Stroka operator+(const char *, const ID_Stroka);  \\TODO
+    friend ID_Stroka operator+(const char *, const ID_Stroka &);
 };
+
 ID_Stroka::ID_Stroka(int a): Stroka(a) {
     cout << "ID_Stroka::ID_Stroka(int a):Stroka(a)" << endl;
 }
@@ -60,7 +61,7 @@ ID_Stroka::ID_Stroka(const char * Str):Stroka(Str) {
                 len = 0;
                 pch = new char[len + 1];
                 pch[0] = '\0';
-                cout << "Bad Symbol!" << endl;
+                cout << "\t__Bad Symbol!__" << endl;
                 break;
             }
         }
@@ -70,7 +71,7 @@ ID_Stroka::ID_Stroka(const char * Str):Stroka(Str) {
         len = 0;
         pch = new char[len + 1];
         pch[0] = '\0';
-        cout << "Bad Symbol!" << endl;
+        cout << "\t__Bad Symbol!__" << endl;
     }
 
 }
@@ -130,10 +131,35 @@ ID_Stroka operator+(const ID_Stroka &pobj1, const ID_Stroka &pobj2) {
     for (int i = 0; i <= pobj2.len; i++)
         tmp.pch[pobj1.len + i] = pobj2.pch[i];
 
+    cout << "ID_Stroka operator+(const ID_Stroka &, const ID_Stroka &)" << endl;
+    return tmp;
+}
 
-    //strcpy_s(tmp.pch, tmp.len + 1, pobj1.GetStr());
-    //strcat_s(tmp.pch, tmp.len + 1, pobj2.GetStr());
-    cout << "ID_Stroka operator+(const ID_Stroka &pobj1, const ID_Stroka &pobj2)" << endl;
+ID_Stroka operator+(const char * str1, const ID_Stroka &pobj2) {
+    ID_Stroka str0(str1);
+    ID_Stroka tmp(str0 + pobj2);
+
+    cout << "ID_Stroka operator+(const char *, const ID_Stroka &)" << endl;
+    return tmp;
+}
+
+ID_Stroka operator+(const ID_Stroka &pobj1, const char * str2) {
+    ID_Stroka tmp(pobj1.len + (int)strlen(str2));
+    for (int i = 0; i < strlen(str2); i++) {
+        if ((str2[i] >= 'A' && str2[i] <= 'Z') || (str2[i] >= 'a' && str2[i] <= 'z')
+            || str2[i] == '_' || (str2[i] >= '0' && str2[i] <= '9')) {
+
+            for (int j = 0; j < pobj1.len; j++)
+                tmp.pch[j] = pobj1.pch[j];
+            for (int j = 0; j <= (int)strlen(str2); j++)
+                tmp.pch[pobj1.len + j] = str2[j];
+        } else {
+            delete[] str2;
+            cout << "\t__Bad Symbol!__" << endl;
+            return pobj1;
+        }
+    }
+    cout << "ID_Stroka operator+(const ID_Stroka &, const char *)" << endl;
     return tmp;
 }
 

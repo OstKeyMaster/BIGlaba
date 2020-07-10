@@ -18,11 +18,11 @@ public:
 
     ~Stroka();
 
-    int GetLen() {
+    int Len() {
         return len;
     }
 
-    char * GetStr() const {
+    char * Str() const {
         return pch;
     }
 
