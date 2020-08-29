@@ -19,10 +19,12 @@ public:
     ~Stroka();
 
     int Len() {
+        //cout << "Stroka::Len()" << endl;
         return len;
     }
 
     char * Str() const {
+        //cout << "Stroka::Str()" << endl;
         return pch;
     }
 
@@ -47,7 +49,7 @@ Stroka::Stroka(const char * S): len(strlen(S)), pch(new char[len+1]()) {
     cout << "Stroka::Stroka(const char * S)" << endl;
 }
 
-Stroka::Stroka(const Stroka &src_obj) : len(src_obj.len), pch(new char[len + 1]()) {
+Stroka::Stroka(const Stroka &src_obj) : len(src_obj.len), pch(new char[len + 1]) {
     char * ptr = src_obj.pch;
     for (int i = 0; i <= len; i++) {
         *pch++ = *ptr++;

@@ -8,9 +8,9 @@ using namespace std;
 
 class Dec_Stroka: public Stroka {
 public:
-    Dec_Stroka();  //Конструктор пустой
+    explicit Dec_Stroka();  //Конструктор пустой
 
-    Dec_Stroka(const char *);  //Конструктор по строке
+    explicit Dec_Stroka(const char *);  //Конструктор по строке
 
     Dec_Stroka(const Dec_Stroka &);  //Конструктор копирования
 
@@ -79,7 +79,7 @@ Dec_Stroka & Dec_Stroka::operator=(const Dec_Stroka & DS) {
         delete[] pch;
         len = strlen(DS.pch);
         pch = new char[len + 1];
-        strcpy(pch, DS.pch);
+        strcpy_s(pch, strlen(pch), DS.pch);
     }
     cout << "Dec_Stroka & Dec_Stroka::operator=(const Dec_Stroka & DS)" << endl;
     return * this;
@@ -105,7 +105,7 @@ Dec_Stroka operator+(const Dec_Stroka &num1, const Dec_Stroka &num2) {
     if (sum == 0) {
         return Dec_Stroka("0");
     } else {
-        char ch_sum[sum_len + 2];
+        char *ch_sum = new char[sum_len + 2];
         ch_sum[0] = sign;
         for (int i = 1; i < sum_len + 1; i++) {
             ch_sum[i] = char(sum / pow(10, sum_len - i) + '0');
@@ -126,7 +126,7 @@ Dec_Stroka operator-(const Dec_Stroka &num1, const Dec_Stroka &num2) {
     if (sum == 0) {
         return Dec_Stroka("0");
     } else {
-        char ch_sum[sum_len + 2];
+        char *ch_sum = new char[sum_len + 2];
         ch_sum[0] = sign;
         for (int i = 1; i < sum_len + 1; i++) {
             ch_sum[i] = char(sum / pow(10, sum_len - i) + '0');
