@@ -15,7 +15,7 @@ public:
 
     ID_Stroka(const ID_Stroka &);  //Конструктор копирования
 
-    ~ID_Stroka();
+    virtual ~ID_Stroka();
 
     ID_Stroka upperCase();
 

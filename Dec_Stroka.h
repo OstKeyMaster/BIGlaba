@@ -14,7 +14,7 @@ public:
 
     Dec_Stroka(const Dec_Stroka &);  //Конструктор копирования
 
-    ~Dec_Stroka();  //Деструктор
+    virtual ~Dec_Stroka();  //Деструктор
 
     const char * (Sign());  //Информация о знаке (+ или -)
 

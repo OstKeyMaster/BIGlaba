@@ -59,7 +59,7 @@ Stroka::Stroka(const Stroka &src_obj) : len(src_obj.len), pch(new char[len + 1])
 }
 
 Stroka::~Stroka() {
-    delete[] pch;
+    if (pch) delete[] pch;
     cout << "Stroka::~Stroka()" << endl;
 }
 
