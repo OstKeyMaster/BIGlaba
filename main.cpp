@@ -13,14 +13,51 @@ void Testing();
 const char * Stroka_type(int);
 
 int main() {
-    N = 4;
+    /*N = 4;
     main_arr_ptr = new Stroka *[N];
+    main_arr_types = new int[N];
     main_arr_ptr[0] = new Stroka("123hello");
-    main_arr_ptr[1] = new ID_Stroka("hello_123");
+    main_arr_ptr[1] = new ID_Stroka("hello_123_");
     main_arr_ptr[2] = new Dec_Stroka("-12305");
-    //main_arr_ptr[3] = nullptr;
+    main_arr_ptr[3] = new Dec_Stroka("18305");
+    main_arr_types[0] = 1;
+    main_arr_types[1] = 2;
+    main_arr_types[2] = 3;
+    main_arr_types[3] = 3;*/
+    cout << "Welcome!" << endl;
+    while(true) {
+        if (N == 0) {
+            cout << "\nMain menu:\n"
+                    "\t0) Quit\n"
+                    "\t1) Initializing\n"
+                    "\t2) Testing (Not available)\n>";
+        } else if (N > 0) {
+            cout << "\nMain menu:\n"
+                    "\t0) Quit\n"
+                    "\t1) Initializing\n"
+                    "\t2) Testing\n>";
+        }
+        int a;
+        cin >> a;
+        switch(a) {
+            case 0:
+                return 0;
+            case 1:
+                Initialize();
+                break;
+            case 2:
+                if (N == 0) {
+                    cout << "This part is not available. Go to Initializing first." << endl;
+                } else if (N > 0) {
+                    Testing();
+                }
+                break;
+            default:
+                cout << "You chosen the number that is not supported. Try again.\n" << endl;
+        }
+    }
     //Initialize();
-    Testing();
+    //Testing();
 
     // Deleting main_arr_ptr
     /*for (int i = 0; i < N; i++) {
@@ -34,13 +71,13 @@ int main() {
 void Initialize() {
     while(true) {
         if (N == 0) {
-            cout << "1. Initializing (choose action number):\n"
+            cout << "\n1. Initializing (choose action number):\n"
                     "\t1) Number of elements\n"
                     "\t2) Initial values (Not available)\n"
                     "\t0) Back (go to Testing)\n"
                     "> ";
         } else if (N > 0) {
-            cout << "1. Initializing (choose action number):\n"
+            cout << "\n1. Initializing (choose action number):\n"
                     "\t1) Number of elements (Not available)\n"
                     "\t2) Initial values\n"
                     "\t0) Back\n"
@@ -85,7 +122,7 @@ void Initialize() {
                                 "\t" << main_arr_ptr[i]->Str() << endl;
                             }
                         }
-                        cout << "\nChoose element number (Enter 0 to go back)\n>" << endl;
+                        cout << "\nChoose element number (Enter 0 to go back)\n>";
                         cin >> elmt;
                         if (elmt == 0) break;
                         if (elmt > N || elmt < 0) {
@@ -144,19 +181,258 @@ void Initialize() {
 }
 
 void Testing() {
-    cout << "2. Testing (choose element number):" << endl;
-    for (int i = 0; i < N; i++) {
-        if (main_arr_ptr[i] == nullptr) {
-            cout << "\t" << i + 1 << "." << endl;
+    while(true) {
+        cout << "\n2. Testing (choose element number):" << endl;
+        cout << "\t0.\tBack\n";
+        for (int i = 0; i < N; i++) {
+            if (main_arr_ptr[i] == nullptr) {
+                cout << "\t" << i + 1 << "." << endl;
+            } else {
+                cout << "\t" << i + 1 << ". " << Stroka_type(main_arr_types[i]) << "\t" << main_arr_ptr[i]->Str()
+                     << endl;
+            }
         }
-        else {
-            cout << "\t" << i + 1 << ". " << Stroka_type(main_arr_types[i]) << "\t" << main_arr_ptr[i]->Str() << endl;
+        cout << ">";
+        int element;
+        cin >> element;
+        if (element == 0)
+            return;
+        if (element > N || element < 1) {
+            cout << "You chosen the number that is not supported. Try again.\n" << endl;
+            continue;
+        }
+        cout << "You have chosen element " << element << endl;
+        element--;
+        int choice;
+        switch (main_arr_types[element]) {
+            case 1: {
+                cout << "Choose method number (0 for go back):\n"
+                        "\t1) Str\n"
+                        "\t2) Len\n"
+                        "\t3) Show\n"
+                        ">";
+                cin >> choice;
+                switch (choice) {
+                    case 0:
+                        break;
+                    case 1:
+                        cout << main_arr_ptr[element]->Str() << endl;
+                        break;
+                    case 2:
+                        cout << main_arr_ptr[element]->Len() << endl;
+                        break;
+                    case 3:
+                        main_arr_ptr[element]->Show();
+                    default:
+                        cout << "You chosen the number that is not supported. Try again.\n" << endl;
+                }
+                break;
+            }
+            case 2: {
+                cout << "Choose method number:\n"
+                        "\t1) Str\n"
+                        "\t2) Len\n"
+                        "\t3) Show\n"
+                        "\t4) upperCase\n"
+                        "\t5) = (assign)\n"
+                        "\t6) [] (get symbol by index)\n"
+                        "\t7) ~ (reverse)\n"
+                        "\t8) + (concatenate)\n"
+                        ">";
+                cin >> choice;
+                switch (choice) {
+                    case 0:
+                        break;
+                    case 1:
+                        cout << main_arr_ptr[element]->Str() << endl;
+                        break;
+                    case 2:
+                        cout << main_arr_ptr[element]->Len() << endl;
+                        break;
+                    case 3:
+                        main_arr_ptr[element]->Show();
+                        break;
+                    case 4:
+                        main_arr_ptr[element] = new ID_Stroka(((ID_Stroka *) main_arr_ptr[element])->upperCase());
+                        break;
+                    case 5: {
+                        int count = 0;
+                        for (int i = 0; i < N; i++)
+                            if (main_arr_types[i] == main_arr_types[element])
+                                count++;
+                        if (count > 1) {
+                            cout << "Choose value to assign:" << endl;
+                            for (int i = 0; i < N; i++)
+                                if (main_arr_types[i] == main_arr_types[element] && i != element) {
+                                    cout << "\t" << i + 1 << ". " << Stroka_type(main_arr_types[i]) <<
+                                         "\t" << main_arr_ptr[i]->Str() << endl;
+                                }
+                            cout << ">";
+                            cin >> choice;
+                            *((ID_Stroka *) main_arr_ptr[element]) = *((ID_Stroka *) main_arr_ptr[choice - 1]);
+                        } else {
+                            cout << "There is no value to assign." << endl;
+                        }
+                        break;
+                    }
+                    case 6:
+                        cout << "There is " << main_arr_ptr[element]->Len() <<
+                             " symbols. Enter number of symbol (choose from 1 to " <<
+                             main_arr_ptr[element]->Len() << "):\n>";
+                        cin >> choice;
+                        if (choice >= 1 && choice <= main_arr_ptr[element]->Len())
+                            cout << (*((ID_Stroka *) main_arr_ptr[element]))[choice - 1] << endl;
+                        break;
+                    case 7:
+                        ~*((ID_Stroka *) main_arr_ptr[element]);
+                        break;
+                    case 8: {
+                        int count = 0;
+                        for (int i = 0; i < N; i++)
+                            if (main_arr_types[i] == main_arr_types[element])
+                                count++;
+                        if (count > 1) {
+                            cout << "Choose value to concatenate:" << endl;
+                            for (int i = 0; i < N; i++)
+                                if (main_arr_types[i] == main_arr_types[element] && i != element) {
+                                    cout << "\t" << i + 1 << ". " << Stroka_type(main_arr_types[i]) <<
+                                         "\t" << main_arr_ptr[i]->Str() << endl;
+                                }
+                            cout << ">";
+                            cin >> choice;
+                            *((ID_Stroka *) main_arr_ptr[element]) = *((ID_Stroka *) main_arr_ptr[element]) +
+                                                                     *((ID_Stroka *) main_arr_ptr[choice - 1]);
+                        } else {
+                            cout << "There is no value to concatenate." << endl;
+                        }
+                        break;
+                    }
+                    default:
+                        cout << "You chosen the number that is not supported. Try again.\n" << endl;
+                }
+                break;
+            }
+            case 3: {
+                cout << "Choose method number:\n"
+                        "\t1) Str\n"
+                        "\t2) Len\n"
+                        "\t3) Show\n"
+                        "\t4) Sign\n"
+                        "\t5) = (assign)\n"
+                        "\t6) + (add)\n"
+                        "\t7) - (subtract)\n"
+                        "\t8) == (is equal)\n"
+                        ">";
+                cin >> choice;
+                switch (choice) {
+                    case 0:
+                        break;
+                    case 1:
+                        cout << main_arr_ptr[element]->Str() << endl;
+                        break;
+                    case 2:
+                        cout << main_arr_ptr[element]->Len() << endl;
+                        break;
+                    case 3:
+                        main_arr_ptr[element]->Show();
+                        break;
+                    case 4:
+                        cout << ((Dec_Stroka *) main_arr_ptr[element])->Sign() << endl;
+                        break;
+                    case 5: {
+                        int count = 0;
+                        for (int i = 0; i < N; i++)
+                            if (main_arr_types[i] == main_arr_types[element])
+                                count++;
+                        if (count > 1) {
+                            cout << "Choose value to assign:" << endl;
+                            for (int i = 0; i < N; i++)
+                                if (main_arr_types[i] == main_arr_types[element] && i != element) {
+                                    cout << "\t" << i + 1 << ". " << Stroka_type(main_arr_types[i]) <<
+                                         "\t" << main_arr_ptr[i]->Str() << endl;
+                                }
+                            cout << ">";
+                            cin >> choice;
+                            *((Dec_Stroka *) main_arr_ptr[element]) = *((Dec_Stroka *) main_arr_ptr[choice - 1]);
+                        } else {
+                            cout << "There is no value to assign." << endl;
+                        }
+                        break;
+                    }
+                    case 6: {
+                        int count = 0;
+                        for (int i = 0; i < N; i++)
+                            if (main_arr_types[i] == main_arr_types[element])
+                                count++;
+                        if (count > 1) {
+                            cout << "Choose value to add:" << endl;
+                            for (int i = 0; i < N; i++)
+                                if (main_arr_types[i] == main_arr_types[element] && i != element) {
+                                    cout << "\t" << i + 1 << ". " << Stroka_type(main_arr_types[i]) <<
+                                         "\t" << main_arr_ptr[i]->Str() << endl;
+                                }
+                            cout << ">";
+                            cin >> choice;
+                            *((Dec_Stroka *) main_arr_ptr[element]) = *((Dec_Stroka *) main_arr_ptr[element]) +
+                                                                     *((Dec_Stroka *) main_arr_ptr[choice - 1]);
+                        } else {
+                            cout << "There is no value to add." << endl;
+                        }
+                        break;
+                    }
+                    case 7: {
+                        int count = 0;
+                        for (int i = 0; i < N; i++)
+                            if (main_arr_types[i] == main_arr_types[element])
+                                count++;
+                        if (count > 1) {
+                            cout << "Choose subtrahend:" << endl;
+                            for (int i = 0; i < N; i++)
+                                if (main_arr_types[i] == main_arr_types[element] && i != element) {
+                                    cout << "\t" << i + 1 << ". " << Stroka_type(main_arr_types[i]) <<
+                                         "\t" << main_arr_ptr[i]->Str() << endl;
+                                }
+                            cout << ">";
+                            cin >> choice;
+                            *((Dec_Stroka *) main_arr_ptr[element]) = *((Dec_Stroka *) main_arr_ptr[element]) -
+                                                                     *((Dec_Stroka *) main_arr_ptr[choice - 1]);
+                        } else {
+                            cout << "There is no value to subtract." << endl;
+                        }
+                        break;
+                    }
+                    case 8: {
+                        int count = 0;
+                        for (int i = 0; i < N; i++)
+                            if (main_arr_types[i] == main_arr_types[element])
+                                count++;
+                        if (count > 1) {
+                            cout << "Choose value to compare with:" << endl;
+                            for (int i = 0; i < N; i++)
+                                if (main_arr_types[i] == main_arr_types[element] && i != element) {
+                                    cout << "\t" << i + 1 << ". " << Stroka_type(main_arr_types[i]) <<
+                                         "\t" << main_arr_ptr[i]->Str() << endl;
+                                }
+                            cout << ">";
+                            cin >> choice;
+                            cout << (*((Dec_Stroka *) main_arr_ptr[element]) ==
+                            *((Dec_Stroka *) main_arr_ptr[choice - 1]) ? "true" : "false") << endl;
+                        } else {
+                            cout << "There is no value to compare." << endl;
+                        }
+                        break;
+                    }
+
+                    default:
+                        cout << "You chosen the number that is not supported. Try again.\n" << endl;
+                }
+                break;
+            }
+            default:
+                cout << "Element has no type. Do you want to set operand? (Yes/No):\n>";
+
         }
     }
-    int element;
-    cin >> element;
-    cout << "You have chosen element " << element << endl;
-    //TODO
 }
 
 const char *Stroka_type(int num) {
