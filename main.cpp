@@ -13,17 +13,6 @@ void Testing();
 const char * Stroka_type(int);
 
 int main() {
-    /*N = 4;
-    main_arr_ptr = new Stroka *[N];
-    main_arr_types = new int[N];
-    main_arr_ptr[0] = new Stroka("123hello");
-    main_arr_ptr[1] = new ID_Stroka("hello_123_");
-    main_arr_ptr[2] = new Dec_Stroka("-12305");
-    main_arr_ptr[3] = new Dec_Stroka("18305");
-    main_arr_types[0] = 1;
-    main_arr_types[1] = 2;
-    main_arr_types[2] = 3;
-    main_arr_types[3] = 3;*/
     cout << "Welcome!" << endl;
     while(true) {
         if (N == 0) {
@@ -56,16 +45,6 @@ int main() {
                 cout << "You chosen the number that is not supported. Try again.\n" << endl;
         }
     }
-    //Initialize();
-    //Testing();
-
-    // Deleting main_arr_ptr
-    /*for (int i = 0; i < N; i++) {
-        if (main_arr_ptr[i] != nullptr)
-            delete[] main_arr_ptr[i];  //TODO error??
-    }
-    delete[] main_arr_ptr;*/
-    return 0;
 }
 
 void Initialize() {

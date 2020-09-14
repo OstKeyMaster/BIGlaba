@@ -32,7 +32,4 @@ public:
     friend ID_Stroka operator+(const char *, const ID_Stroka &);
 };
 
-
-
-
 #endif //_ID_STROKA_
